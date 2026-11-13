@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Utang / Cash Loan Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <style>
+    canvas {
+      touch-action: none;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 min-h-screen py-6 px-4 font-sans text-slate-800">
+
+  <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+    <div class="bg-blue-700 px-6 py-4 text-white">
+      <h1 class="text-xl font-bold">Cash Loan / Utang Agreement</h1>
+      <p class="text-blue-100 text-xs mt-1">Please fill out all required details, take your photo, and sign below.</p>
+    </div>
+
+    <form id="loanForm" class="p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Full Name *</label>
+        <input type="text" id="fullName" required placeholder="Juan Dela Cruz"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Contact Number *</label>
+          <input type="tel" id="contact" required placeholder="09XX XXX XXXX"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Amount (PHP) *</label>
+          <input type="number" id="amount" required min="1" step="0.01" placeholder="1000.00"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Address *</label>
+        <input type="text" id="address" required placeholder="Barangay, Municipality/City"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1">Date Borrowed *</label>
+          <input type="date" id="dateBorrowed" required
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Due Date *</label>
+          <input type="date" id="dueDate" required
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <!-- Native Camera Photo Capture -->
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <label class="block text-sm font-semibold">Borrower Live Photo (Selfie) *</label>
+          <button type="button" id="retakeBtn" class="hidden text-xs text-red-600 hover:underline font-medium">Retake
+            Photo</button>
+        </div>
+
+        <input type="file" id="cameraInput" accept="image/*" capture="user" class="hidden">
+
+        <div class="border-2 border-dashed border-slate-300 rounded-lg bg-slate-50 p-3 text-center space-y-2">
+          <div id="cameraStartBox" class="py-4">
+            <button type="button" id="startCameraBtn"
+              class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow">
+              Open Camera to Take Photo
+            </button>
+            <p class="text-[11px] text-slate-400 mt-1.5">Opens your device camera to take a selfie. / Ablihan ang camera
+              aron mag-selfie.</p>
+          </div>
+
+          <div id="photoResultBox" class="hidden">
+            <img id="photoPreview"
+              class="w-44 h-44 object-cover rounded-lg border border-slate-300 mx-auto shadow-sm" />
+            <p class="text-[11px] text-emerald-600 font-medium mt-1">Photo captured successfully / Na-save na ang
+              hulagway</p>
+          </div>
+        </div>
+        <canvas id="photoCanvas" class="hidden"></canvas>
+      </div>
+
+      <!-- Non-editable Terms / Notes (English & Bisaya) -->
+      <div>
+        <label class="block text-sm font-semibold mb-1 text-slate-700">Terms / Notes — Mga Kasabutan
+          (Non-Editable)</label>
+        <div class="bg-amber-50 border border-amber-300 rounded-lg p-3.5 text-xs text-slate-800 space-y-3 select-none">
+          <div>
+            <p class="font-semibold text-amber-900 mb-1">English Version:</p>
+            <ul class="list-disc pl-4 space-y-1">
+              <li><strong>10% interest</strong> every <strong>15 days</strong>.</li>
+              <li>If payment is delayed past the due date, an additional <strong>1.5% late penalty</strong> will be
+                added per day of delay.</li>
+              <li>In case of default or non-payment, I agree that my <strong>name, photo/image, and loan/utang details
+                  may be posted on social media</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="border-t border-amber-200 pt-2.5">
+            <p class="font-semibold text-amber-900 mb-1">Bisaya / Cebuano Version:</p>
+            <ul class="list-disc pl-4 space-y-1">
+              <li>Adunay <strong>10% nga tubo (interest)</strong> matag <strong>15 ka adlaw</strong>.</li>
+              <li>Kung malangan o ma-delay ang pagbayad lapas sa gitakda nga petsa (due date), adunay dugang nga
+                <strong>1.5% nga multa (penalty)</strong> matag adlaw sa pagka-delay.</li>
+              <li>Kung dili makabayad sa gikasabutan nga petsa, nisugot ko nga <strong>i-post sa social media ang akong
+                  pangalan, hulagway/litrato, ug detalye sa akong utang</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="checkbox" id="agree" required class="mt-0.5 rounded text-blue-600">
+          <span class="space-y-1.5 block">
+            <span class="block">I confirm that I have received the amount stated above and agree to the <strong>10%
+                interest every 15 days</strong>, the <strong>1.5% daily late penalty</strong> if delayed, and the
+              posting of my <strong>name, image, and loan/utang details on social media</strong> in case of
+              non-payment.</span>
+            <span class="block text-slate-600 italic border-t border-slate-200 pt-1.5">Nagpamatuod ko nga nadawat nako
+              ang kantidad sa ibabaw ug nisugot ko sa <strong>10% nga tubo matag 15 ka adlaw</strong>, sa <strong>1.5%
+                nga multa matag adlaw kung ma-delay</strong>, ug sa <strong>pag-post sa akong pangalan, hulagway, ug
+                detalye sa utang sa social media</strong> kung dili ko makabayad.</span>
+          </span>
+        </label>
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <label class="block text-sm font-semibold">Borrower's Signature / Pirma *</label>
+          <button type="button" id="clearSig" class="text-xs text-red-600 hover:underline font-medium">Clear
+            Signature</button>
+        </div>
+        <div class="border-2 border-dashed border-slate-300 rounded-lg bg-white overflow-hidden">
+          <canvas id="signaturePad" class="w-full h-40 cursor-crosshair"></canvas>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">Sign inside the box using your finger or mouse. / Pirma sulod sa
+          kahon.</p>
+      </div>
+
+      <button type="submit" id="submitBtn"
+        class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2.5 rounded-lg shadow transition">
+        Submit & Sign Agreement
+      </button>
+    </form>
+
+    <div id="successBox" class="hidden p-8 text-center space-y-4">
+      <div
+        class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+        ✓</div>
+      <div>
+        <h2 class="text-lg font-bold text-slate-800">Record Saved! / Na-save na!</h2>
+        <p class="text-sm text-slate-600 mt-1">Your signed utang agreement and photo have been recorded. You can view or
+          download your receipt below.</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2.5 justify-center pt-2">
+        <a id="viewPdfBtn" href="#" target="_blank" rel="noopener noreferrer"
+          class="bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow transition">
+          View Signed PDF
+        </a>
+        <a id="downloadPdfBtn" href="#" target="_blank" rel="noopener noreferrer"
+          class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow transition">
+          Download PDF Copy
+        </a>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100">
+        <button type="button" onclick="resetForm()" class="text-xs text-slate-500 hover:text-slate-800 underline">
+          Record Another Entry
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PASTE YOUR GOOGLE APPS SCRIPT /exec URL BELOW
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKiMAB-yvKfILsTeJmOsM4j3aQrej4c1UBHj4p43VSSQzl6MIjb4vbEPF8RxhxFSqgoA/exec';
+
+    // Signature Pad Setup
+    const canvas = document.getElementById('signaturePad');
+    const signaturePad = new SignaturePad(canvas, {
+      penColor: 'rgb(15, 23, 42)'
+    });
+
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext("2d").scale(ratio, ratio);
+      signaturePad.clear();
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    document.getElementById('dateBorrowed').valueAsDate = new Date();
+
+    document.getElementById('clearSig').addEventListener('click', () => {
+      signaturePad.clear();
+    });
+
+    // Native Camera File Input + Compression
+    let capturedPhotoData = null;
+    const cameraInput = document.getElementById('cameraInput');
+    const startCameraBtn = document.getElementById('startCameraBtn');
+    const retakeBtn = document.getElementById('retakeBtn');
+    const photoCanvas = document.getElementById('photoCanvas');
+    const photoPreview = document.getElementById('photoPreview');
+
+    startCameraBtn.addEventListener('click', () => cameraInput.click());
+    retakeBtn.addEventListener('click', () => {
+      cameraInput.value = '';
+      cameraInput.click();
+    });
+
+    cameraInput.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const img = new Image();
+        img.onload = function () {
+          const MAX_SIZE = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          } else if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+
+          photoCanvas.width = width;
+          photoCanvas.height = height;
+          const ctx = photoCanvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          capturedPhotoData = photoCanvas.toDataURL('image/jpeg', 0.8);
+          photoPreview.src = capturedPhotoData;
+
+          document.getElementById('cameraStartBox').classList.add('hidden');
+          document.getElementById('photoResultBox').classList.remove('hidden');
+          retakeBtn.classList.remove('hidden');
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Form Submission via fetch() to Google Apps Script
+    document.getElementById('loanForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      if (!capturedPhotoData) {
+        alert('Please take a photo using your camera before submitting. / Palihug pagkuha og litrato gamit ang camera.');
+        return;
+      }
+
+      if (signaturePad.isEmpty()) {
+        alert('Please provide a signature before submitting. / Palihug pirma usa i-submit.');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerText = 'Saving Photo & Generating PDF...';
+      btn.classList.add('opacity-70');
+
+      const formData = {
+        fullName: document.getElementById('fullName').value.trim(),
+        contact: document.getElementById('contact').value.trim(),
+        amount: document.getElementById('amount').value,
+        address: document.getElementById('address').value.trim(),
+        dateBorrowed: document.getElementById('dateBorrowed').value,
+        dueDate: document.getElementById('dueDate').value,
+        photo: capturedPhotoData,
+        signature: signaturePad.toDataURL('image/png')
+      };
+
+      try {
+        // Send as text/plain to avoid CORS preflight issues with Google Apps Script
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById('viewPdfBtn').href = result.pdfViewUrl;
+          document.getElementById('downloadPdfBtn').href = result.pdfDownloadUrl;
+          document.getElementById('loanForm').classList.add('hidden');
+          document.getElementById('successBox').classList.remove('hidden');
+        } else {
+          alert('Error saving record: ' + result.error);
+        }
+      } catch (err) {
+        alert('Submission failed: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Submit & Sign Agreement';
+        btn.classList.remove('opacity-70');
+      }
+    });
+
+    function resetForm() {
+      capturedPhotoData = null;
+      cameraInput.value = '';
+      document.getElementById('loanForm').reset();
+      document.getElementById('dateBorrowed').valueAsDate = new Date();
+      signaturePad.clear();
+      document.getElementById('photoResultBox').classList.add('hidden');
+      document.getElementById('cameraStartBox').classList.remove('hidden');
+      retakeBtn.classList.add('hidden');
+      document.getElementById('successBox').classList.add('hidden');
+      document.getElementById('loanForm').classList.remove('hidden');
+      resizeCanvas();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,6 @@
     }
   </style>
 </head>
-
 <body class="bg-slate-100 min-h-screen py-6 px-4 font-sans text-slate-800">
 
   <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
@@ -65,10 +63,9 @@
       <div>
         <div class="flex justify-between items-center mb-1">
           <label class="block text-sm font-semibold">Borrower Live Photo (Selfie) *</label>
-          <button type="button" id="retakeBtn" class="hidden text-xs text-red-600 hover:underline font-medium">Retake
-            Photo</button>
+          <button type="button" id="retakeBtn" class="hidden text-xs text-red-600 hover:underline font-medium">Retake Photo</button>
         </div>
-
+        
         <input type="file" id="cameraInput" accept="image/*" capture="user" class="hidden">
 
         <div class="border-2 border-dashed border-slate-300 rounded-lg bg-slate-50 p-3 text-center space-y-2">
@@ -77,44 +74,36 @@
               class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow">
               Open Camera to Take Photo
             </button>
-            <p class="text-[11px] text-slate-400 mt-1.5">Opens your device camera to take a selfie. / Ablihan ang camera
-              aron mag-selfie.</p>
+            <p class="text-[11px] text-slate-400 mt-1.5">Opens your device camera to take a selfie. / Ablihan ang camera aron mag-selfie.</p>
           </div>
 
           <div id="photoResultBox" class="hidden">
-            <img id="photoPreview"
-              class="w-44 h-44 object-cover rounded-lg border border-slate-300 mx-auto shadow-sm" />
-            <p class="text-[11px] text-emerald-600 font-medium mt-1">Photo captured successfully / Na-save na ang
-              hulagway</p>
+            <img id="photoPreview" class="w-44 h-44 object-cover rounded-lg border border-slate-300 mx-auto shadow-sm" />
+            <p class="text-[11px] text-emerald-600 font-medium mt-1">Photo captured successfully / Na-save na ang hulagway</p>
           </div>
         </div>
         <canvas id="photoCanvas" class="hidden"></canvas>
       </div>
 
-      <!-- Non-editable Terms / Notes (English & Bisaya) -->
+      <!-- Non-editable Terms / Notes (Shows ONLY the assigned rate) -->
       <div>
-        <label class="block text-sm font-semibold mb-1 text-slate-700">Terms / Notes — Mga Kasabutan
-          (Non-Editable)</label>
+        <label class="block text-sm font-semibold mb-1 text-slate-700">Terms / Notes — Mga Kasabutan (Non-Editable)</label>
         <div class="bg-amber-50 border border-amber-300 rounded-lg p-3.5 text-xs text-slate-800 space-y-3 select-none">
           <div>
             <p class="font-semibold text-amber-900 mb-1">English Version:</p>
             <ul class="list-disc pl-4 space-y-1">
-              <li><strong>10% interest</strong> every <strong>15 days</strong>.</li>
-              <li>If payment is delayed past the due date, an additional <strong>1.5% late penalty</strong> will be
-                added per day of delay.</li>
-              <li>In case of default or non-payment, I agree that my <strong>name, photo/image, and loan/utang details
-                  may be posted on social media</strong>.</li>
+              <li><strong><span class="rateDisplay">10</span>% interest</strong> every <strong>15 days</strong>.</li>
+              <li>If payment is delayed past the due date, an additional <strong>1.5% late penalty</strong> will be added per day of delay.</li>
+              <li>In case of default or non-payment, I agree that my <strong>name, photo/image, and loan/utang details may be posted on social media</strong>.</li>
             </ul>
           </div>
 
           <div class="border-t border-amber-200 pt-2.5">
             <p class="font-semibold text-amber-900 mb-1">Bisaya / Cebuano Version:</p>
             <ul class="list-disc pl-4 space-y-1">
-              <li>Adunay <strong>10% nga tubo (interest)</strong> matag <strong>15 ka adlaw</strong>.</li>
-              <li>Kung malangan o ma-delay ang pagbayad lapas sa gitakda nga petsa (due date), adunay dugang nga
-                <strong>1.5% nga multa (penalty)</strong> matag adlaw sa pagka-delay.</li>
-              <li>Kung dili makabayad sa gikasabutan nga petsa, nisugot ko nga <strong>i-post sa social media ang akong
-                  pangalan, hulagway/litrato, ug detalye sa akong utang</strong>.</li>
+              <li>Adunay <strong><span class="rateDisplay">10</span>% nga tubo (interest)</strong> matag <strong>15 ka adlaw</strong>.</li>
+              <li>Kung malangan o ma-delay ang pagbayad lapas sa gitakda nga petsa (due date), adunay dugang nga <strong>1.5% nga multa (penalty)</strong> matag adlaw sa pagka-delay.</li>
+              <li>Kung dili makabayad sa gikasabutan nga petsa, nisugot ko nga <strong>i-post sa social media ang akong pangalan, hulagway/litrato, ug detalye sa akong utang</strong>.</li>
             </ul>
           </div>
         </div>
@@ -124,14 +113,8 @@
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="checkbox" id="agree" required class="mt-0.5 rounded text-blue-600">
           <span class="space-y-1.5 block">
-            <span class="block">I confirm that I have received the amount stated above and agree to the <strong>10%
-                interest every 15 days</strong>, the <strong>1.5% daily late penalty</strong> if delayed, and the
-              posting of my <strong>name, image, and loan/utang details on social media</strong> in case of
-              non-payment.</span>
-            <span class="block text-slate-600 italic border-t border-slate-200 pt-1.5">Nagpamatuod ko nga nadawat nako
-              ang kantidad sa ibabaw ug nisugot ko sa <strong>10% nga tubo matag 15 ka adlaw</strong>, sa <strong>1.5%
-                nga multa matag adlaw kung ma-delay</strong>, ug sa <strong>pag-post sa akong pangalan, hulagway, ug
-                detalye sa utang sa social media</strong> kung dili ko makabayad.</span>
+            <span class="block">I confirm that I have received the amount stated above and agree to the <strong><span class="rateDisplay">10</span>% interest every 15 days</strong>, the <strong>1.5% daily late penalty</strong> if delayed, and the posting of my <strong>name, image, and loan/utang details on social media</strong> in case of non-payment.</span>
+            <span class="block text-slate-600 italic border-t border-slate-200 pt-1.5">Nagpamatuod ko nga nadawat nako ang kantidad sa ibabaw ug nisugot ko sa <strong><span class="rateDisplay">10</span>% nga tubo matag 15 ka adlaw</strong>, sa <strong>1.5% nga multa matag adlaw kung ma-delay</strong>, ug sa <strong>pag-post sa akong pangalan, hulagway, ug detalye sa utang sa social media</strong> kung dili ko makabayad.</span>
           </span>
         </label>
       </div>
@@ -139,14 +122,12 @@
       <div>
         <div class="flex justify-between items-center mb-1">
           <label class="block text-sm font-semibold">Borrower's Signature / Pirma *</label>
-          <button type="button" id="clearSig" class="text-xs text-red-600 hover:underline font-medium">Clear
-            Signature</button>
+          <button type="button" id="clearSig" class="text-xs text-red-600 hover:underline font-medium">Clear Signature</button>
         </div>
         <div class="border-2 border-dashed border-slate-300 rounded-lg bg-white overflow-hidden">
           <canvas id="signaturePad" class="w-full h-40 cursor-crosshair"></canvas>
         </div>
-        <p class="text-[11px] text-slate-400 mt-1">Sign inside the box using your finger or mouse. / Pirma sulod sa
-          kahon.</p>
+        <p class="text-[11px] text-slate-400 mt-1">Sign inside the box using your finger or mouse. / Pirma sulod sa kahon.</p>
       </div>
 
       <button type="submit" id="submitBtn"
@@ -156,13 +137,10 @@
     </form>
 
     <div id="successBox" class="hidden p-8 text-center space-y-4">
-      <div
-        class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-        ✓</div>
+      <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
       <div>
         <h2 class="text-lg font-bold text-slate-800">Record Saved! / Na-save na!</h2>
-        <p class="text-sm text-slate-600 mt-1">Your signed utang agreement and photo have been recorded. You can view or
-          download your receipt below.</p>
+        <p class="text-sm text-slate-600 mt-1">Your signed utang agreement and photo have been recorded. You can view or download your receipt below.</p>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-2.5 justify-center pt-2">
@@ -187,6 +165,11 @@
   <script>
     // PASTE YOUR GOOGLE APPS SCRIPT /exec URL BELOW
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKiMAB-yvKfILsTeJmOsM4j3aQrej4c1UBHj4p43VSSQzl6MIjb4vbEPF8RxhxFSqgoA/exec';
+
+    // Silently set interest rate from URL (?rate=15), defaulting to 10%
+    const urlParams = new URLSearchParams(window.location.search);
+    const assignedRate = (urlParams.get('rate') === '15') ? '15' : '10';
+    document.querySelectorAll('.rateDisplay').forEach(el => el.textContent = assignedRate);
 
     // Signature Pad Setup
     const canvas = document.getElementById('signaturePad');
@@ -225,14 +208,14 @@
       cameraInput.click();
     });
 
-    cameraInput.addEventListener('change', function (e) {
+    cameraInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function (event) {
+      reader.onload = function(event) {
         const img = new Image();
-        img.onload = function () {
+        img.onload = function() {
           const MAX_SIZE = 800;
           let width = img.width;
           let height = img.height;
@@ -263,7 +246,7 @@
     });
 
     // Form Submission via fetch() to Google Apps Script
-    document.getElementById('loanForm').addEventListener('submit', async function (e) {
+    document.getElementById('loanForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
       if (!capturedPhotoData) {
@@ -288,12 +271,12 @@
         address: document.getElementById('address').value.trim(),
         dateBorrowed: document.getElementById('dateBorrowed').value,
         dueDate: document.getElementById('dueDate').value,
+        interestRate: assignedRate,
         photo: capturedPhotoData,
         signature: signaturePad.toDataURL('image/png')
       };
 
       try {
-        // Send as text/plain to avoid CORS preflight issues with Google Apps Script
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -334,5 +317,4 @@
     }
   </script>
 </body>
-
 </html>
